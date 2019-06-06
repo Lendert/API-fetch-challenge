@@ -10,7 +10,19 @@ fetch(`https://api.punkapi.com/v2/beers?page=${i}`, {mode: 'cors'})
     
    console.log(beers);
     for( let beer of beers) { 
-        let text = `<div class="card m-2" style="width: 18rem;">
+        createCard(beer);
+    }
+})
+}
+
+function parseHTML(temp){
+ let tempdoc = document.implementation.createHTMLDocument(); 
+     tempdoc.body.innerHTML = temp;
+ return tempdoc.body.children[0];
+}
+
+function createCard(beer) {
+let text = `<div class="card m-2" style="width: 18rem;">
         <div class="text-center bg-light" style="width: 100%;">
         <img class="mx-auto my-3" src="${beer.image_url}" alt="${beer.name}" height= "150px">
         </div>
@@ -23,13 +35,18 @@ fetch(`https://api.punkapi.com/v2/beers?page=${i}`, {mode: 'cors'})
       let child = parseHTML(text);
       let button = child.getElementsByTagName('a')[0];
           button.addEventListener("click", function(){
-      container.classList.toggle("d-none");
-      container.classList.toggle("d-flex");
-      info.classList.toggle("d-none");
-      info.classList.toggle("d-flex");
-      
-           
-      info.innerHTML = `<div class="card m-4" style= "width: 600px;">
+      showInfoHandler(beer);
+         })
+      container.appendChild(child);
+}
+
+function showInfoHandler(beer) {
+    toggleDivs();
+    createInfoCard(beer); 
+}
+
+function createInfoCard(beer) {
+info.innerHTML = `<div class="card m-4" style= "width: 600px;">
       <div class="row no-gutters">
       <div class="text-center col-md-4 bg-light py-4">
       <img class="mx-auto" src="${beer.image_url}" alt="${beer.name}" height= "150px"  >
@@ -52,18 +69,13 @@ fetch(`https://api.punkapi.com/v2/beers?page=${i}`, {mode: 'cors'})
     </div>`;
       let button2 = info.getElementsByTagName("a")[0];
           button2.addEventListener("click", function(){
-            container.classList.toggle("d-none");
-            container.classList.toggle("d-flex");
-            info.classList.toggle("d-none");
-            info.classList.toggle("d-flex");
-          })
-          })
-      container.appendChild(child);
-    }
-})
+            toggleDivs();
+          });
 }
-function parseHTML(temp){
- let tempdoc = document.implementation.createHTMLDocument(); 
-     tempdoc.body.innerHTML = temp;
- return tempdoc.body.children[0];
+
+function toggleDivs() {
+    container.classList.toggle("d-none");
+    container.classList.toggle("d-flex");
+    info.classList.toggle("d-none");
+    info.classList.toggle("d-flex");
 }
