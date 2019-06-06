@@ -7,8 +7,6 @@ fetch(`https://api.punkapi.com/v2/beers?page=${i}`, {mode: 'cors'})
    return data.json();
 })
 .then(function(beers){
-    
-   console.log(beers);
     for( let beer of beers) { 
         createCard(beer);
     }
