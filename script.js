@@ -12,7 +12,7 @@ fetch(`https://api.punkapi.com/v2/beers?page=${i}`, {mode: 'cors'})
     for( let beer of beers) { 
         let text = `<div class="card m-2" style="width: 18rem;">
         <div class="text-center bg-light" style="width: 100%;">
-        <img class="mx-auto my-3" src="${beer.image_url}" alt="${beer.name}" height= "150px"  >
+        <img class="mx-auto my-3" src="${beer.image_url}" alt="${beer.name}" height= "150px">
         </div>
         <div class="card-body text-center">
           <h5 class="card-title">${beer.name}</h5>
@@ -27,7 +27,8 @@ fetch(`https://api.punkapi.com/v2/beers?page=${i}`, {mode: 'cors'})
       container.classList.toggle("d-flex");
       info.classList.toggle("d-none");
       info.classList.toggle("d-flex");
-       
+      
+           
       info.innerHTML = `<div class="card m-4" style= "width: 600px;">
       <div class="row no-gutters">
       <div class="text-center col-md-4 bg-light py-4">
@@ -38,19 +39,24 @@ fetch(`https://api.punkapi.com/v2/beers?page=${i}`, {mode: 'cors'})
         <h5 class="card-title">${beer.name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">${beer.tagline}</h6>
         <h6 class="card-subtitle mb-2">${beer.description}</h6>
+        <b>Hops: </b>
         <ul class="list-group">
-        <li class="list-group-item"> <b>abv: </b>${beer.abv}%</li>
-        <li class="list-group-item"></li>
-        <li class="list-group-item"></li>
-        <li class="list-group-item"></li>
-        </li>
+        ${Array(beer.ingredients.hops.length).fill().map((item, i)=>
+          `<li class="list-group-item">${beer.ingredients.hops[i].name}</li>`        
+        ).join('')}
         </ul>
-        <a href="#" class="btn btn-dark">more info</a>
+        <a href="#" class="btn btn-dark">all beers</a>
         </div>
       </div>
       </div>
     </div>`;
-      
+      let button2 = info.getElementsByTagName("a")[0];
+          button2.addEventListener("click", function(){
+            container.classList.toggle("d-none");
+            container.classList.toggle("d-flex");
+            info.classList.toggle("d-none");
+            info.classList.toggle("d-flex");
+          })
           })
       container.appendChild(child);
     }
